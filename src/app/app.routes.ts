@@ -26,32 +26,7 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () => import('./views/pages/home/home.component').then(c => c.HomeComponent),
         canActivate: [authGuard]
-      },
-      {
-        path: 'sales-report',
-        loadComponent: () => import('./views/pages/sales/sales.component').then(c => c.SalesComponent),
-        canActivate: [authGuard]
-      },
-      {
-        path: 'order-history',
-        loadComponent: () => import('./views/pages/order-history/order-history.component').then(c => c.OrderHistoryComponent),
-        canActivate: [authGuard]
-      },
-      {
-        path: 'active-orders',
-        loadComponent: () => import('./views/pages/active-orders/active-orders.component').then(c => c.ActiveOrdersComponent),
-        canActivate: [authGuard]
-      },
-      {
-        path: 'manage-products',
-        loadComponent: () => import('./views/pages/products-managment/products-managment.component').then(c => c.ProductsManagmentComponent),
-        canActivate: [authGuard]
-      },
-      {
-        path: 'cash-register',
-        loadComponent: () => import('./views/pages/checkout/checkout.component').then(c => c.CheckoutComponent),
-        canActivate: [authGuard]
-      },
+      }
     ]
   },
   {
