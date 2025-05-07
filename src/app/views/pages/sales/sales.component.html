@@ -1,0 +1,161 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Welcome to your Sales Report</h4>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
+      <i class="btn-icon-prepend" data-feather="printer" appFeatherIcon></i>
+      Print
+    </button>
+    <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+      <i class="btn-icon-prepend" data-feather="download-cloud" appFeatherIcon></i>
+      Download Report
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-xl-12 stretch-card">
+    <div class="row flex-grow-1">
+      <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <h6 class="card-title mb-0">Completed Orders</h6>
+            </div>
+            <div class="row">
+              <div class="col-6 col-md-12 col-xl-5">
+                <h3 class="mb-2">{{ totalOrders }}</h3>
+              </div>
+              <div class="col-6 col-md-12 col-xl-7">
+                <div class="mt-md-3 mt-xl-0">
+                  <apx-chart
+                    [series]="customersChartOptions.series"
+                    [chart]="customersChartOptions.chart"
+                    [colors]="customersChartOptions.colors"
+                    [xaxis]="customersChartOptions.xaxis"
+                    [stroke]="customersChartOptions.stroke"
+                    [markers]="customersChartOptions.markers"
+                  ></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <h6 class="card-title mb-0">Sold Products</h6>
+            </div>
+            <div class="row">
+              <div class="col-6 col-md-12 col-xl-5">
+                <h3 class="mb-2">{{ totalSoldProducts }}</h3>
+              </div>
+              <div class="col-6 col-md-12 col-xl-7">
+                <div class="mt-md-3 mt-xl-0">
+                  <apx-chart
+                    [series]="ordersChartOptions.series"
+                    [chart]="ordersChartOptions.chart"
+                    [colors]="ordersChartOptions.colors"
+                    [plotOptions]="ordersChartOptions.plotOptions"
+                    [xaxis]="ordersChartOptions.xaxis"
+                  ></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <h6 class="card-title mb-0">Total Revenue</h6>
+            </div>
+            <div class="row">
+              <div class="col-6 col-md-12 col-xl-5">
+                <h3 class="mb-2">{{ totalRevenue | currency }}</h3>
+              </div>
+              <div class="col-6 col-md-12 col-xl-7">
+                <div class="mt-md-3 mt-xl-0">
+                  <apx-chart
+                    [series]="growthChartOptions.series"
+                    [chart]="growthChartOptions.chart"
+                    [colors]="growthChartOptions.colors"
+                    [xaxis]="growthChartOptions.xaxis"
+                    [stroke]="growthChartOptions.stroke"
+                    [markers]="growthChartOptions.markers"
+                  ></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- row -->
+
+<div class="row">
+  <div class="col-12 col-xl-12 grid-margin stretch-card">
+    <div class="card overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+          <h6 class="card-title mb-0">Revenue</h6>
+        </div>
+        <div class="row align-items-start">
+          <div class="col-md-7">
+          </div>
+          <div class="col-md-5 d-flex justify-content-md-end">
+            <div class="btn-group mb-3 mb-md-0" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-primary">Today</button>
+              <button type="button" class="btn btn-outline-primary d-none d-md-block">Week</button>
+              <button type="button" class="btn btn-primary">Month</button>
+              <button type="button" class="btn btn-outline-primary">Year</button>
+            </div>
+          </div>
+        </div>
+        <div class="flot-wrapper">
+          <apx-chart
+            [series]="revenueChartOptions.series"
+            [chart]="revenueChartOptions.chart"
+            [colors]="revenueChartOptions.colors"
+            [grid]="revenueChartOptions.grid"
+            [xaxis]="revenueChartOptions.xaxis"
+            [yaxis]="revenueChartOptions.yaxis"
+            [markers]="revenueChartOptions.markers"
+            [stroke]="revenueChartOptions.stroke"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- row -->
+
+<div class="row">
+  <div class="col-lg-7 col-xl-8 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6 class="card-title mb-0">Monthly Completed Orders</h6>
+          <div ngbDropdown class="mb-2"></div>
+        </div>
+        <apx-chart
+          [series]="monthlySalesChartOptions.series"
+          [chart]="monthlySalesChartOptions.chart"
+          [colors]="monthlySalesChartOptions.colors"
+          [fill]="monthlySalesChartOptions.fill"
+          [grid]="monthlySalesChartOptions.grid"
+          [xaxis]="monthlySalesChartOptions.xaxis"
+          [yaxis]="monthlySalesChartOptions.yaxis"
+          [legend]="monthlySalesChartOptions.legend"
+          [stroke]="monthlySalesChartOptions.stroke"
+          [dataLabels]="monthlySalesChartOptions.dataLabels"
+          [plotOptions]="monthlySalesChartOptions.plotOptions"
+        ></apx-chart>
+      </div> 
+    </div>
+  </div>
+</div> <!-- row -->

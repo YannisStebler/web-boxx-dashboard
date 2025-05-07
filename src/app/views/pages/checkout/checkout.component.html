@@ -1,0 +1,121 @@
+<div class="container-fluid mt-4">
+  <h2 class="mb-4">Kasse</h2>
+
+  <div class="row">
+    <!-- LEFT SIDE: Cart & Payment -->
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5>Warenkorb</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group mb-3">
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+              *ngFor="let item of cart"
+            >
+              <div>
+                <strong>{{ item.product.name }}</strong
+                ><br />
+                <small class="text-muted">{{ item.product.category }}</small
+                ><br />
+                x{{ item.quantity }}
+              </div>
+              <div>
+                <button
+                  class="btn btn-sm btn-outline-danger me-2"
+                  (click)="removeFromCart(item.product)"
+                >
+                  −
+                </button>
+                <span>{{ item.product.price | currency : "CHF" }}</span>
+              </div>
+            </li>
+          </ul>
+
+          <!-- PAYMENT INPUT -->
+          <div class="mb-3">
+            <label class="form-label">Eingezahlter Betrag</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="paidAmountInput"
+              (input)="updatePaidAmount()"
+            />
+          </div>
+
+          <p class="mb-1">
+            <strong>Gesamtsumme:</strong> {{ totalAmount | currency : "CHF" }}
+          </p>
+          <p class="mb-3">
+            <strong>Rückgeld:</strong>
+            {{
+              paidAmount - totalAmount < 0
+                ? "0.00 CHF"
+                : (paidAmount - totalAmount | currency : "CHF")
+            }}
+          </p>
+
+          <div class="d-grid gap-2">
+            <button
+              class="btn btn-success"
+              (click)="confirmPayment()"
+              [disabled]="totalAmount === 0"
+            >
+              Zahlung bestätigen
+            </button>
+            <button class="btn btn-secondary" (click)="cancelPayment()">
+              Abbrechen
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NUMPAD -->
+      <div class="card">
+        <div class="card-body">
+          <div
+            *ngFor="let row of numpadLayout"
+            class="d-flex justify-content-center mb-2"
+          >
+            <button
+              *ngFor="let key of row"
+              class="btn btn-outline-primary me-2"
+              style="width: 60px; height: 60px"
+              (click)="handleNumpadInput(key)"
+            >
+              {{ key }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: Product Grid -->
+    <div class="col-md-8">
+      <div class="row">
+        <div
+          class="col-sm-6 col-md-4 col-lg-3 mb-3"
+          *ngFor="let product of products"
+        >
+          <div class="card h-100 text-center">
+            <div
+              class="card-body p-2 d-flex flex-column justify-content-between"
+            >
+              <h6 class="card-title mb-1">{{ product.name }}</h6>
+              <p class="mb-2 text-muted" style="font-size: 0.85rem">
+                {{ product.price | currency : "CHF" }}
+              </p>
+              <button
+                class="btn btn-sm btn-primary mt-auto"
+                (click)="addToCart(product)"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

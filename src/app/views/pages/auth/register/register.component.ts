@@ -1,27 +1,69 @@
 import { NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
     NgStyle,
-    RouterLink
+    RouterLink,
+    FormsModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  username: string = '';
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  onRegister(e: Event) {
-    e.preventDefault();
-    localStorage.setItem('isLoggedin', 'true');
-    if (localStorage.getItem('isLoggedin') === 'true') {
-      this.router.navigate(['/']);
+  ngOnInit() {
+    // Überprüfen, ob der Benutzer bereits angemeldet ist
+    const token = this.authService.getToken();
+    if (token) {
+      const tokenExpiry = localStorage.getItem('tokenExpiry');
+      if (tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+        // Token ist gültig, Weiterleitung zur Startseite
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
+      }
     }
   }
 
+  onRegister() {
+    this.errorMessage = '';
+
+    if (!this.username || !this.email || !this.password) {
+      this.errorMessage = 'Please enter a username, email, and password.';
+      return;
+    }
+
+    this.authService.register(this.username, this.email, this.password).subscribe({
+      next: (response) => {
+        const accessToken = response.token;
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('tokenExpiry', (Date.now() + 12 * 60 * 60 * 1000).toString());
+
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
+      },
+      error: async (err) => {
+        const message =
+          err?.error?.message || 'Registration failed. Please try again.';
+        this.errorMessage = message;
+        
+      }
+    });
+  }
 }

@@ -34,10 +34,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.scss"
@@ -72,12 +70,17 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "allowedHosts": ["www.quikcashier.com"]
+          },
           "configurations": {
             "production": {
-              "buildTarget": "demo1:build:production"
+              "buildTarget": "demo1:build:production",
+              "allowedHosts": ["www.quikcashier.com"]
             },
             "development": {
-              "buildTarget": "demo1:build:development"
+              "buildTarget": "demo1:build:development",
+              "allowedHosts": ["www.quikcashier.com"]
             }
           },
           "defaultConfiguration": "development"
